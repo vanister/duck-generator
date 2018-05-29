@@ -6,14 +6,20 @@
 // The module 'assert' provides assertion methods from node
 import * as assert from 'assert';
 
-// import * as vscode from 'vscode';
-// import * as myExtension from '../extension';
+import { getWorkspaceFolder } from '../extension';
 
-// Defines a Mocha test suite to group tests of similar kind together
-suite('Extension Tests', () => {
-  // Defines a Mocha unit test
-  test("Something 1", () => {
-    assert.equal(-1, [1, 2, 3].indexOf(5));
-    assert.equal(-1, [1, 2, 3].indexOf(0));
+suite('Extension', () => {
+  const folders: any[] = [{ uri: { fsPath: 'path/to/unit/test/' } }];
+
+  test('should return empty string if workspace folders are empty', () => {
+    const wsRoot = getWorkspaceFolder(undefined);
+
+    assert.equal(wsRoot, '');
+  });
+
+  test('should return workspace root path', () => {
+    const wsRoot = getWorkspaceFolder(folders);
+
+    assert.equal(wsRoot, 'path/to/unit/test/');
   });
 });
