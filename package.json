@@ -1,42 +1,40 @@
 {
-    "name": "ducksgenerator",
-    "displayName": "Ducks Generator",
-    "description": "Generates re-ducks ducks folder and files for Redux.",
-    "version": "1.0.0",
-    "publisher": "vanister",
-    "license": "MIT",
-    "engines": {
-        "vscode": "^1.23.0"
-    },
-    "categories": [
-        "Other"
-    ],
-    "activationEvents": [
-        "onCommand:extension.generateDuck"
-    ],
-    "main": "./out/extension",
-    "contributes": {
-        "commands": [
-            {
-                "command": "extension.generateDuck",
-                "title": "Generate Duck"
-            }
-        ]
-    },
-    "scripts": {
-        "vscode:prepublish": "npm run compile",
-        "compile": "tsc -p ./",
-        "watch": "tsc -watch -p ./",
-        "postinstall": "node ./node_modules/vscode/bin/install",
-        "test": "jest"
-    },
-    "devDependencies": {
-        "@types/jest": "^22.2.3",
-        "@types/node": "^7.0.43",
-        "jest": "^23.0.1",
-        "ts-jest": "^22.4.6",
-        "tslint": "^5.8.0",
-        "typescript": "^2.8.3",
-        "vscode": "^1.1.6"
-    }
+  "name": "duckgenerator",
+  "displayName": "Duck Generator",
+  "description": "Generates duck folder and files for the re-ducks pattern.",
+  "version": "1.0.0",
+  "publisher": "vanister",
+  "license": "MIT",
+  "engines": {
+    "vscode": "^1.23.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onCommand:extension.generateDuck"
+  ],
+  "main": "./out/extension",
+  "contributes": {
+    "commands": [
+      {
+        "command": "extension.generateDuck",
+        "title": "Generate Duck"
+      }
+    ]
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "postinstall": "node ./node_modules/vscode/bin/install",
+    "test": "npm run compile && node ./node_modules/vscode/bin/test"
+  },
+  "devDependencies": {
+    "@types/node": "^7.0.43",
+    "@types/mocha": "^5.2.0",
+    "tslint": "^5.10.0",
+    "typescript": "^2.8.3",
+    "vscode": "^1.1.18"
+  }
 }

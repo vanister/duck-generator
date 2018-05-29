@@ -1,20 +1,21 @@
+import * as assert from 'assert';
+
 import { DuckExistsError } from '../../errors/duck-exists.error';
 
-describe('Errors', () => {
-  describe('DuckExistsError', () => {
-    it('should contruct an error', () => {
+suite('Errors', () => {
+  suite('DuckExistsError', () => {
+    test('should contruct an error', () => {
       let error = new DuckExistsError();
 
-      expect(error).toBeInstanceOf(DuckExistsError);
-      expect(error.name).toBe('DuckExistsError');
-      expect(error.message).toBe('Duck already exists');
+      assert.equal((error instanceof DuckExistsError), true);
+      assert.equal(error.name, 'DuckExistsError');
+      assert.equal(error.message, 'Duck already exists');
     });
 
-    it('should construct an error with a custom message', () => {
+    test('should construct an error with a custom message', () => {
       let error = new DuckExistsError('custom error message');
 
-      expect(error).toBeInstanceOf(DuckExistsError);
-      expect(error.message).toBe('custom error message');
+      assert.equal(error.message, 'custom error message');
     });
   });
 });
