@@ -1,9 +1,10 @@
 {
     "name": "ducksgenerator",
-    "displayName": "DucksGenerator",
+    "displayName": "Ducks Generator",
     "description": "Generates re-ducks ducks folder and files for Redux.",
     "version": "1.0.0",
-    "publisher": "vph",
+    "publisher": "vanister",
+    "license": "MIT",
     "engines": {
         "vscode": "^1.23.0"
     },
@@ -11,7 +12,7 @@
         "Other"
     ],
     "activationEvents": [
-        "onCommand:extension.sayHello"
+        "onCommand:extension.generateDuck"
     ],
     "main": "./out/extension",
     "contributes": {
@@ -27,13 +28,15 @@
         "compile": "tsc -p ./",
         "watch": "tsc -watch -p ./",
         "postinstall": "node ./node_modules/vscode/bin/install",
-        "test": "npm run compile && node ./node_modules/vscode/bin/test"
+        "test": "jest"
     },
     "devDependencies": {
-        "typescript": "^2.6.1",
-        "vscode": "^1.1.6",
-        "tslint": "^5.8.0",
+        "@types/jest": "^22.2.3",
         "@types/node": "^7.0.43",
-        "@types/mocha": "^2.2.42"
+        "jest": "^23.0.1",
+        "ts-jest": "^22.4.6",
+        "tslint": "^5.8.0",
+        "typescript": "^2.8.3",
+        "vscode": "^1.1.6"
     }
 }
