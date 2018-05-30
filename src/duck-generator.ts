@@ -1,16 +1,19 @@
 import * as path from 'path';
 import * as fs from 'fs';
 
-import { InputBoxOptions, window } from "vscode";
+import { InputBoxOptions } from "vscode";
 import { IDisposable } from './disposable.interface';
-import { DuckExistsError } from './errors/duck-exists.error';
+import { DuckExistError } from './errors/duck-exist.error';
+import { VSCodeWindow } from './vscode.interfaces';
 
 export class DuckGenerator implements IDisposable {
-  private readonly extension: string = '.js';
-  private readonly duckFiles: string[] = ['operators', 'selectors', 'actions', 'reducers', 'types', 'test', 'index'];
+  private readonly extension = '.js';
+  private readonly duckFiles = ['operators', 'selectors', 'actions', 'reducers', 'types', 'test', 'index'];
+  private readonly defaultPath = 'src/state/ducks';
 
   constructor(
     private workspaceRoot: string,
+    private window: VSCodeWindow
   ) { }
 
   async execute() {
@@ -21,17 +24,24 @@ export class DuckGenerator implements IDisposable {
       return;
     }
 
-    const absoluteDuckPath: string = await this.toPath(duckname);
+    const absoluteDuckPath: string = this.toPath(duckname);
 
     try {
       this.create(absoluteDuckPath);
+
+      this.window.showInformationMessage(`Duck: '${duckname}' successfully created`);
     } catch (err) {
       // log?
-      
+      if (err instanceof DuckExistError) {
+        this.window.showErrorMessage(`Duck: '${duckname}' already exists`);
+      } else {
+        this.window.showErrorMessage(`Error: ${err.message}`);
+      }
     }
   }
 
   async prompt(): Promise<string | undefined> {
+    // this can be abstracted out as an argument for prompt
     const options: InputBoxOptions = {
       ignoreFocusOut: true,
       prompt: `Duck name: 'some_duck', or a relative path: 'src/state/ducks/some_duck'`,
@@ -39,14 +49,14 @@ export class DuckGenerator implements IDisposable {
       validateInput: this.validate
     };
 
-    return await window.showInputBox(options);
+    return await this.window.showInputBox(options);
   }
 
   create(absoluteDuckPath: string) {
     if (fs.existsSync(absoluteDuckPath)) {
       const duck: string = path.basename(absoluteDuckPath);
 
-      throw new DuckExistsError(duck);
+      throw new DuckExistError(`'${duck}' already exists`);
     }
 
     try {
@@ -67,7 +77,7 @@ export class DuckGenerator implements IDisposable {
     }
   }
 
-  validate(name: string) {
+  validate(name: string): string | null {
     if (!name) {
       return 'Name is required';
     }
@@ -86,7 +96,7 @@ export class DuckGenerator implements IDisposable {
       return path.resolve(this.workspaceRoot, name);
     }
     // if it's just the name of the duck, assume that it'll be in 'src/state/ducks/'
-    return path.resolve(this.workspaceRoot, 'src/state/ducks/', name);
+    return path.resolve(this.workspaceRoot, this.defaultPath, name);
   }
 
   dispose(): void {
