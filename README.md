@@ -33,13 +33,14 @@ Alternatively you can specify a relative path to a ducks folder that already exi
 ## Known Issues
 
 - Folder: `src/state/ducks` should exist or you will get an error. 
+- Not tested on Windows.
 
 ## Source
 
-// TODO
+[GitHub](https://github.com/vanister/duck-generator)
 
 ## License
 
-// TODO
+[MIT](https://raw.githubusercontent.com/vanister/duck-generator/master/LICENSE)
 
 
