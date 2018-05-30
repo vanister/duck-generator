@@ -4,4 +4,5 @@ All notable changes to the "ducksgenerator" extension will be documented in this
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
 ## 1.0.0
-- Initial release
+- Initial release.
+- Can generate duck by name or relative path (to a folder that already exists).

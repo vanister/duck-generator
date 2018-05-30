@@ -1,42 +1,45 @@
-# ducksgenerator README
+# Duck Generator
 
-This is the README for your extension "ducksgenerator". After writing up a brief description, we recommend including the following sections.
+Utility to generate ducks for managing state in Redux using the [re-ducks](https://github.com/alexnm/re-ducks) pattern.
 
-## Features
+A generated duck contains the following files:
+- `actions.js`
+- `index.js`
+- `operations.js`
+- `reducers.js`
+- `selectors.js`
+- `tests.js`
+- `types.js`
+- `utils.js // will not be generated`
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
+**NOTE 1: Assumes that duck will be generated in, `./src/state/ducks`, if only a name is given. Example: `quack`, when entered into the prompt will create the duck at `./src/state/ducs/quack`.**
 
-For example if there is an image subfolder under your extension project workspace:
+**NOTE 2: When specifying a path for the duck, the parent ducks folder must exist. Example: `src/state/ducklings/quack`, the folder `ducklings` must exist.**
 
-\!\[feature X\]\(images/feature-x.png\)
+## Usage
 
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
+Open the command palette (macOS: `Shift+Command+P`, Windows: `Ctrl+Shift+P`) and type, "Generate Duck."
 
-## Requirements
+![Command Palette](images/command-palette.gif)
 
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
+Type the name of the duck and hit enter.
 
-## Extension Settings
+![Some Duck](images/some-duck.gif)
 
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
+Alternatively you can specify a relative path to a ducks folder that already exists.
 
-For example:
-
-This extension contributes the following settings:
-
-* `myExtension.enable`: enable/disable this extension
-* `myExtension.thing`: set to `blah` to do something
+![Some Duck Path](images/some-duck-path.gif)
 
 ## Known Issues
 
-Calling out known issues can help limit users opening duplicate issues against your extension.
+- Folder: `src/state/ducks` should exist or you will get an error. 
 
-## Release Notes
+## Source
 
-Users appreciate release notes as you update your extension.
+// TODO
 
-### 1.0.0
+## License
 
-Initial release of ...
+// TODO
 
 
