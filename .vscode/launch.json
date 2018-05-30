@@ -13,7 +13,7 @@
       "args": [
         "${file}"
       ],
-      "preLaunchTask": "npm: watch"
+      "preLaunchTask": "npm: compile"
     },
     {
       "name": "Debug Extension",
