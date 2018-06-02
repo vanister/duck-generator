@@ -1,8 +1,8 @@
 out
 node_modules
 .vscode-test/
-*.vsix
-
-.DS_Store
-
+packaged_vsix/
 coverage/
+
+*.vsix
+.DS_Store

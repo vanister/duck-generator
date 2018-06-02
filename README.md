@@ -2,7 +2,7 @@
 
 Utility to generate ducks for managing state in Redux using the [re-ducks](https://github.com/alexnm/re-ducks) pattern.
 
-A generated duck contains the following files:
+A duck contains the following files:
 - `actions.js`
 - `index.js`
 - `operations.js`
