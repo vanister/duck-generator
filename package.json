@@ -5,6 +5,10 @@
   "version": "1.0.0",
   "publisher": "vanister",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/vanister/duck-generator"
+  },
   "icon": "images/duck-icon.png",
   "engines": {
     "vscode": "^1.23.0"
