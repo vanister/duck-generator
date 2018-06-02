@@ -3,9 +3,11 @@
 out/test/**
 out/**/*.map
 src/**
+coverage/**
 .gitignore
 tsconfig.json
 vsc-extension-quickstart.md
 tslint.json
+jest.config.js
 
 coverage/**
