@@ -16,7 +16,7 @@ export class DuckGenerator implements IDisposable {
     private window: VSCodeWindow
   ) { }
 
-  async execute() {
+  async execute(): Promise<void> {
     // prompt for the name of the duck, or the path to create the duck in
     const duckname: string | undefined = await this.prompt();
 
@@ -24,7 +24,7 @@ export class DuckGenerator implements IDisposable {
       return;
     }
 
-    const absoluteDuckPath: string = this.toPath(duckname);
+    const absoluteDuckPath: string = this.toAbsolutePath(duckname);
 
     try {
       this.create(absoluteDuckPath);
@@ -90,13 +90,13 @@ export class DuckGenerator implements IDisposable {
     return null;
   }
 
-  toPath(name: string): string {
+  toAbsolutePath(nameOrRelativePath: string): string {
     // simple test for slashes in string
-    if (/\/|\\/.test(name)) {
-      return path.resolve(this.workspaceRoot, name);
+    if (/\/|\\/.test(nameOrRelativePath)) {
+      return path.resolve(this.workspaceRoot, nameOrRelativePath);
     }
     // if it's just the name of the duck, assume that it'll be in 'src/state/ducks/'
-    return path.resolve(this.workspaceRoot, this.defaultPath, name);
+    return path.resolve(this.workspaceRoot, this.defaultPath, nameOrRelativePath);
   }
 
   dispose(): void {
