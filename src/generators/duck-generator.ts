@@ -1,19 +1,19 @@
 import * as path from 'path';
 import * as fs from 'fs';
 
-import { InputBoxOptions } from "vscode";
-import { IDisposable } from './disposable.interface';
-import { DuckExistError } from './errors/duck-exist.error';
-import { VSCodeWindow } from './vscode.interfaces';
+import { InputBoxOptions } from 'vscode';
+import { DuckExistError } from '../errors/duck-exist.error';
+import { VSCodeWindow } from '../vscode.interfaces';
+import { IGenerator } from './generator.interface';
 
-export class DuckGenerator implements IDisposable {
+export class DuckGenerator implements IGenerator {
   private readonly extension = '.js';
   private readonly duckFiles = ['operators', 'selectors', 'actions', 'reducers', 'types', 'test', 'index'];
   private readonly defaultPath = 'src/state/ducks';
 
   constructor(
     private workspaceRoot: string,
-    private window: VSCodeWindow
+    private window: VSCodeWindow,
   ) { }
 
   async execute(): Promise<void> {

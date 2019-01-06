@@ -2,7 +2,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 
 import { DuckExistError } from '../errors/duck-exist.error';
-import { DuckGenerator } from '../duck-generator';
+import { DuckGenerator } from '../generators/duck-generator';
 
 jest.mock('fs');
 jest.mock('path');

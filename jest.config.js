@@ -15,9 +15,9 @@ module.exports = {
     '/node_modules/'
   ],
   testMatch: [
-    "**/src/test/**/*.+(ts|js)"
+    "**/src/tests/**/*.+(ts|js)"
   ],
   testPathIgnorePatterns: [
-    "src/test/index.ts"
+    "src/tests/index.ts"
   ]
 };
