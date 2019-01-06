@@ -1,5 +1,7 @@
 # Duck Generator - Development
 
+To view the pretty version of this file, hit: `Command+Shift+V` or `Ctrl+Shift+V` (`macOS/Windows`).
+
 ## Setup
 
 Packages: 
@@ -16,7 +18,6 @@ Run the following scripts:
 - `npm test` to execute the unit tests.
 - `npm run test:coverage` to execute the unit tests and produce a coverage report.
 - `npm run test:integration` to run the integration test suites (not implemented).
-
 
 ## Packaging/extension local testing
 
