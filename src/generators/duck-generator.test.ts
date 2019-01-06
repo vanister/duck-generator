@@ -1,9 +1,9 @@
 import * as fs from 'fs';
 import * as path from 'path';
 
-import { DuckExistError } from '../../errors/duck-exist.error';
-import { DuckGenerator } from '../../generators/duck-generator';
-import { IOptionOverrides, IOptions } from '../../models/options.interface';
+import { DuckExistsError } from '../errors/duck-exists.error';
+import { DuckGenerator } from './duck-generator';
+import { IOptionOverrides, IOptions } from '../models/options.interface';
 
 jest.mock('fs');
 jest.mock('path');
@@ -70,7 +70,7 @@ describe('Duck Generator', () => {
     const existsMock = (<any>fs.existsSync).mockReturnValue(true);
     const basenameMock = (<any>path.basename).mockReturnValue('quack');
 
-    expect(() => { generator.create(absDuckPath); }).toThrowError(DuckExistError);
+    expect(() => { generator.create(absDuckPath); }).toThrowError(DuckExistsError);
 
     expect(existsMock).toHaveBeenCalledWith(absDuckPath);
     expect(basenameMock).toHaveBeenCalledWith(absDuckPath);
@@ -148,7 +148,7 @@ describe('Duck Generator', () => {
 
     jest.spyOn(generator, 'prompt').mockResolvedValue(duck);
     jest.spyOn(generator, 'toAbsolutePath').mockReturnValue(`${testRoot}/${duck}`);
-    jest.spyOn(generator, 'create').mockImplementation(() => { throw new DuckExistError(); });
+    jest.spyOn(generator, 'create').mockImplementation(() => { throw new DuckExistsError(); });
 
     await generator.execute();
 

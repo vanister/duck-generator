@@ -1,4 +1,4 @@
-export class DuckExistError extends Error {
+export class DuckExistsError extends Error {
   constructor(message: string = 'Duck already exists') {
     super(message);
 

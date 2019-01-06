@@ -2,7 +2,7 @@ import * as path from 'path';
 import * as fs from 'fs';
 
 import { InputBoxOptions } from 'vscode';
-import { DuckExistError } from '../errors/duck-exist.error';
+import { DuckExistsError } from '../errors/duck-exists.error';
 import { VSCodeWindow } from '../vscode.interfaces';
 import { IGenerator } from './generator.interface';
 import { IOptionOverrides, IOptions } from '../models/options.interface';
@@ -39,7 +39,7 @@ export class DuckGenerator implements IGenerator {
       this.window.showInformationMessage(`Duck: '${duckname}' successfully created`);
     } catch (err) {
       // log?
-      if (err instanceof DuckExistError) {
+      if (err instanceof DuckExistsError) {
         this.window.showErrorMessage(`Duck: '${duckname}' already exists`);
       } else {
         this.window.showErrorMessage(`Error: ${err.message}`);
@@ -63,7 +63,7 @@ export class DuckGenerator implements IGenerator {
     if (fs.existsSync(absoluteDuckPath)) {
       const duck: string = path.basename(absoluteDuckPath);
 
-      throw new DuckExistError(`'${duck}' already exists`);
+      throw new DuckExistsError(`'${duck}' already exists`);
     }
 
     try {

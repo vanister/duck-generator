@@ -1,6 +1,6 @@
 import * as assert from 'assert';
 
-import { getWorkspaceFolder } from '../../utils/workspace-util';
+import { getWorkspaceFolder } from './workspace-util';
 
 describe('Extension', () => {
   const folders: any[] = [{ uri: { fsPath: 'path/to/unit/test/' } }];
