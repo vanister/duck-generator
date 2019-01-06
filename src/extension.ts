@@ -21,8 +21,7 @@ export function activate(context: ExtensionContext) {
   });
 
   // subscribe disposable to extension deactivation event
-  context.subscriptions.push(disposable);
-  context.subscriptions.push(generator);
+  context.subscriptions.push(disposable, generator);
 }
 
 // this method is called when your extension is deactivated

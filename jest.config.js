@@ -1,23 +1,21 @@
 module.exports = {
   moduleFileExtensions: [
-    "ts",
-    "js"
+    'js',
+    'ts',
   ],
   transform: {
-    "^.+\\.(ts|tsx)$": "ts-jest"
+    '^.+\\.(ts|tsx)$': 'ts-jest',
   },
   globals: {
-    "ts-jest": {
-      "tsConfigFile": "tsconfig.json"
-    }
+    'ts-jest': {
+      tsConfig: 'tsconfig.json',
+    },
   },
   testPathIgnorePatterns: [
-    '/node_modules/'
+    'src/tests/index.ts',
   ],
   testMatch: [
-    "**/src/tests/**/*.+(ts|js)"
+    '**/src/tests/**/*.+(ts|js)',
   ],
-  testPathIgnorePatterns: [
-    "src/tests/index.ts"
-  ]
-};
+  preset: 'ts-jest',
+}

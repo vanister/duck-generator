@@ -12,6 +12,7 @@ A duck contains the following files:
 - `types.js`
 - `utils.js // will not be generated`
 
+**TK**
 **NOTE 1: Assumes that duck will be generated in `./src/state/ducks` if a name is given. Example: `quack`, when entered into the prompt, will create the duck at `./src/state/ducs/quack`.**
 
 **NOTE 2: When specifying a path for the duck, the parent ducks folder must exist. Example: `src/state/ducklings/quack`, the folder `ducklings` must exist.**

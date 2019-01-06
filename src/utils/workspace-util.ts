@@ -1,6 +1,6 @@
 import { WorkspaceFolder } from "vscode";
 
-export const getWorkspaceFolder = (folders: WorkspaceFolder[] | undefined): string => {
+const getWorkspaceFolder = (folders: WorkspaceFolder[] | undefined): string => {
   if (!folders) {
     return '';
   }
@@ -9,4 +9,8 @@ export const getWorkspaceFolder = (folders: WorkspaceFolder[] | undefined): stri
   const uri = folder.uri;
 
   return uri.fsPath;
+};
+
+export {
+  getWorkspaceFolder
 };

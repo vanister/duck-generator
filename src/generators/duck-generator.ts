@@ -5,16 +5,23 @@ import { InputBoxOptions } from 'vscode';
 import { DuckExistError } from '../errors/duck-exist.error';
 import { VSCodeWindow } from '../vscode.interfaces';
 import { IGenerator } from './generator.interface';
+import { IOptionOverrides, IOptions } from '../models/options.interface';
 
 export class DuckGenerator implements IGenerator {
-  private readonly extension = '.js';
-  private readonly duckFiles = ['operators', 'selectors', 'actions', 'reducers', 'types', 'test', 'index'];
-  private readonly defaultPath = 'src/state/ducks';
+  readonly options: IOptions = {
+    root: 'src/state/ducks',
+    ext: '.js',
+    files: ['operators', 'selectors', 'actions', 'reducers', 'types', 'test', 'index'],
+    additionalFiles: []
+  };
 
   constructor(
-    private workspaceRoot: string,
-    private window: VSCodeWindow,
-  ) { }
+    private readonly workspaceRoot: string,
+    private readonly window: VSCodeWindow,
+    overrides: IOptionOverrides = {}
+  ) {
+    this.options = Object.assign({}, this.options, overrides);
+  }
 
   async execute(): Promise<void> {
     // prompt for the name of the duck, or the path to create the duck in
@@ -60,18 +67,24 @@ export class DuckGenerator implements IGenerator {
     }
 
     try {
+      const { files, ext, additionalFiles } = this.options;
+      const duckFiles = [
+        ...files,
+        ...additionalFiles
+      ];
+
       // create the directory
       fs.mkdirSync(absoluteDuckPath);
 
-      this.duckFiles.forEach((file: string) => {
-        const filename = `${file}${this.extension}`;
+      duckFiles.forEach((file: string) => {
+        const filename = `${file}${ext}`;
         const fullpath = path.join(absoluteDuckPath, filename);
 
         fs.writeFileSync(fullpath, `/* ${filename} */`);
       });
     } catch (err) {
       // log other than console?
-      console.log('Error', err.message);
+      console.log('Error:', err.message);
 
       throw err;
     }
@@ -95,8 +108,11 @@ export class DuckGenerator implements IGenerator {
     if (/\/|\\/.test(nameOrRelativePath)) {
       return path.resolve(this.workspaceRoot, nameOrRelativePath);
     }
+
+    const { root } = this.options;
+
     // if it's just the name of the duck, assume that it'll be in 'src/state/ducks/'
-    return path.resolve(this.workspaceRoot, this.defaultPath, nameOrRelativePath);
+    return path.resolve(this.workspaceRoot, root, nameOrRelativePath);
   }
 
   dispose(): void {
