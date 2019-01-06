@@ -35,8 +35,8 @@ describe('Duck Generator', () => {
 
     (<any>path.resolve).mockImplementation((...args: string[]) => args.join('/'));
 
-    expect(generator.toPath(name)).toBe(`${testRoot}/src/state/ducks/${name}`);
-    expect(generator.toPath(duckpath)).toBe(`${testRoot}/${duckpath}`);
+    expect(generator.toAbsolutePath(name)).toBe(`${testRoot}/src/state/ducks/${name}`);
+    expect(generator.toAbsolutePath(duckpath)).toBe(`${testRoot}/${duckpath}`);
   });
 
   it('should throw DuckExistError when creating a duck that already exists', () => {
@@ -90,13 +90,13 @@ describe('Duck Generator', () => {
     const generator = new DuckGenerator(testRoot, windowMock);
 
     jest.spyOn(generator, 'prompt').mockResolvedValue(undefined);
-    jest.spyOn(generator, 'toPath');
+    jest.spyOn(generator, 'toAbsolutePath');
     jest.spyOn(generator, 'create');
 
     await generator.execute();
 
     expect(generator.prompt).toHaveBeenCalled();
-    expect(generator.toPath).not.toHaveBeenCalled();
+    expect(generator.toAbsolutePath).not.toHaveBeenCalled();
     expect(generator.create).not.toHaveBeenCalled();
   });
 
@@ -109,13 +109,13 @@ describe('Duck Generator', () => {
     const duck = 'quack';
 
     jest.spyOn(generator, 'prompt').mockResolvedValue(duck);
-    jest.spyOn(generator, 'toPath').mockReturnValue(`${testRoot}/${duck}`);
+    jest.spyOn(generator, 'toAbsolutePath').mockReturnValue(`${testRoot}/${duck}`);
     jest.spyOn(generator, 'create');
 
     await generator.execute();
 
     expect(generator.prompt).toHaveBeenCalled();
-    expect(generator.toPath).toHaveBeenCalledWith(duck);
+    expect(generator.toAbsolutePath).toHaveBeenCalledWith(duck);
     expect(generator.create).toHaveBeenCalledWith(`${testRoot}/${duck}`);
     expect(windowMock.showInformationMessage).toHaveBeenCalledWith(`Duck: '${duck}' successfully created`);
   });
@@ -129,13 +129,13 @@ describe('Duck Generator', () => {
     const duck = 'quack';
 
     jest.spyOn(generator, 'prompt').mockResolvedValue(duck);
-    jest.spyOn(generator, 'toPath').mockReturnValue(`${testRoot}/${duck}`);
+    jest.spyOn(generator, 'toAbsolutePath').mockReturnValue(`${testRoot}/${duck}`);
     jest.spyOn(generator, 'create').mockImplementation(() => { throw new DuckExistError(); });
 
     await generator.execute();
 
     expect(generator.prompt).toHaveBeenCalled();
-    expect(generator.toPath).toHaveBeenCalledWith(duck);
+    expect(generator.toAbsolutePath).toHaveBeenCalledWith(duck);
     expect(generator.create).toHaveBeenCalledWith(`${testRoot}/${duck}`);
     expect(windowMock.showErrorMessage).toHaveBeenCalledWith(`Duck: '${duck}' already exists`);
   });
