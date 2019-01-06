@@ -45,7 +45,7 @@ export class DuckGenerator implements IDisposable {
     const options: InputBoxOptions = {
       ignoreFocusOut: true,
       prompt: `Duck name: 'some_duck', or a relative path: 'src/state/ducks/some_duck'`,
-      placeHolder: 'quack',
+      placeHolder: 'darkwing_duck',
       validateInput: this.validate
     };
 
