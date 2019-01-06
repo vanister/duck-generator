@@ -3,7 +3,7 @@
   "displayName": "Duck Generator",
   "description": "Generates duck folder and files for the re-ducks pattern.",
   "version": "1.0.0",
-  "publisher": "vanister",
+  "publisher": "Vanister",
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -46,6 +46,7 @@
     "ts-jest": "^23.10.5",
     "tslint": "^5.12.0",
     "typescript": "^3.2.2",
+    "vsce": "^1.54.0",
     "vscode": "^1.1.26"
   }
 }
