@@ -30,6 +30,29 @@ Alternatively you can specify a relative path to a ducks folder that already exi
 
 ![Some Duck Path](images/some-duck-path.gif)
 
+## TK - Configurations
+
+Add a `ducks.config.js` to your project root to override default behaviors.
+
+Export an object with the following options:
+
+```
+module.exports = {
+  ...options
+};
+```
+
+### Options
+
+- `ext`: the extension to use.
+  - Default: `'.js'`
+- `root`: the root directory of the ducks.
+  - Default: `'src/state/ducks/'`
+- `files`: an array of files to generate.
+  - Default: `['operators', 'selectors', 'actions', 'reducers', 'types', 'test', 'index']`
+- `additionalFiles`: an array of additional files to generate on top of the duck files.
+  - Default: `[]`
+
 ## Known Issues
 
 - Folder: `src/state/ducks` should exist or you will get an error. 
