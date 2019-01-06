@@ -12,3 +12,4 @@ tslint.json
 jest.config.js
 
 coverage/**
+images/dev/**
