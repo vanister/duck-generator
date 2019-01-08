@@ -5,23 +5,14 @@ import { InputBoxOptions } from 'vscode';
 import { DuckExistsError } from '../errors/duck-exists.error';
 import { VSCodeWindow } from '../vscode.interfaces';
 import { IGenerator } from './generator.interface';
-import { IOptionOverrides, IOptions } from '../models/options.interface';
+import { IOptions } from '../models/options.interface';
 
 export class DuckGenerator implements IGenerator {
-  readonly options: IOptions = {
-    root: 'src/state/ducks',
-    ext: '.js',
-    files: ['operators', 'selectors', 'actions', 'reducers', 'types', 'test', 'index'],
-    additionalFiles: []
-  };
-
   constructor(
     private readonly workspaceRoot: string,
     private readonly window: VSCodeWindow,
-    overrides: IOptionOverrides = {}
-  ) {
-    this.options = Object.assign({}, this.options, overrides);
-  }
+    readonly options: IOptions
+  ) { }
 
   async execute(): Promise<void> {
     // prompt for the name of the duck, or the path to create the duck in
