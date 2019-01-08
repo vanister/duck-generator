@@ -1,6 +1,7 @@
 .vscode/**
 .vscode-test/**
 out/test/**
+out/**/*.test.js
 out/**/*.map
 src/**
 coverage/**
