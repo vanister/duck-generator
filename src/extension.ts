@@ -1,16 +1,25 @@
 
+import * as path from 'path';
+
 import { commands, workspace, window, ExtensionContext } from 'vscode';
+
 import { getWorkspaceFolder } from './utils/workspace-util';
+import { getConfig } from './utils/config-util';
+
 import { DuckGenerator } from './generators/duck-generator';
 import { IGenerator } from './generators/generator.interface';
 
 import extCommands from './commands';
 
+import baseOptions from './base-options';
+
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
 export function activate(context: ExtensionContext) {
   const workspaceRoot: string = getWorkspaceFolder(workspace.workspaceFolders);
-  const generator: IGenerator = new DuckGenerator(workspaceRoot, window);
+  const configPath = path.resolve(workspaceRoot, 'ducks.config.js');
+  const options = getConfig(configPath, baseOptions);
+  const generator: IGenerator = new DuckGenerator(workspaceRoot, window, options);
 
   // The command has been defined in the package.json file
   // Now provide the implementation of the command with  registerCommand
