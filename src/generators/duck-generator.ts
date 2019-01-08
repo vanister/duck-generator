@@ -39,6 +39,7 @@ export class DuckGenerator implements IGenerator {
       this.window.showInformationMessage(`Duck: '${duckname}' successfully created`);
     } catch (err) {
       // log?
+
       if (err instanceof DuckExistsError) {
         this.window.showErrorMessage(`Duck: '${duckname}' already exists`);
       } else {
@@ -66,28 +67,21 @@ export class DuckGenerator implements IGenerator {
       throw new DuckExistsError(`'${duck}' already exists`);
     }
 
-    try {
-      const { files, ext, additionalFiles } = this.options;
-      const duckFiles = [
-        ...files,
-        ...additionalFiles
-      ];
+    const { files, ext, additionalFiles } = this.options;
+    const duckFiles = [
+      ...files,
+      ...additionalFiles
+    ];
 
-      // create the directory
-      fs.mkdirSync(absoluteDuckPath);
+    // create the directory
+    fs.mkdirSync(absoluteDuckPath);
 
-      duckFiles.forEach((file: string) => {
-        const filename = `${file}${ext}`;
-        const fullpath = path.join(absoluteDuckPath, filename);
+    duckFiles.forEach((file: string) => {
+      const filename = `${file}${ext}`;
+      const fullpath = path.join(absoluteDuckPath, filename);
 
-        fs.writeFileSync(fullpath, `/* ${filename} */`);
-      });
-    } catch (err) {
-      // log other than console?
-      console.log('Error:', err.message);
-
-      throw err;
-    }
+      fs.writeFileSync(fullpath, `/* ${filename} */`);
+    });
   }
 
   validate(name: string): string | null {

@@ -3,7 +3,7 @@
 // in the contructor of the duck-generator. this makes it easier to mock 
 // the window in the duck-generator test
 
-import { InputBoxOptions } from "vscode";
+import { InputBoxOptions } from 'vscode';
 
 export interface VSCodeWindow {
   showErrorMessage(message: string): Thenable<string>;
