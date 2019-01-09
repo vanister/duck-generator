@@ -8,17 +8,17 @@ import { getConfig } from './utils/config-util';
 
 import { DuckGenerator } from './generators/duck-generator';
 import { IGenerator } from './generators/generator.interface';
+import { IConfig } from './models/config.interface';
 
 import extCommands from './commands';
-
-import baseOptions from './base-options';
+import baseConfig from './base-config';
 
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
 export function activate(context: ExtensionContext) {
   const workspaceRoot: string = getWorkspaceFolder(workspace.workspaceFolders);
-  const configPath = path.resolve(workspaceRoot, 'ducks.config.js');
-  const options = getConfig(configPath, baseOptions);
+  const configPath: string = path.resolve(workspaceRoot, 'ducks.config.js');
+  const options: IConfig = getConfig(configPath, baseConfig);
   const generator: IGenerator = new DuckGenerator(workspaceRoot, window, options);
 
   // The command has been defined in the package.json file

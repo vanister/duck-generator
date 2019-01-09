@@ -1,7 +1,7 @@
 import * as fs from 'fs';
-import { IOptions } from '../models/options.interface';
+import { IConfig } from '../models/config.interface';
 
-export function getConfig(configPath: string, baseOptions: IOptions): IOptions {
+export function getConfig(configPath: string, baseOptions: IConfig): IConfig {
   if (!configPath) {
     throw new Error('configPath');
   }
@@ -15,7 +15,7 @@ export function getConfig(configPath: string, baseOptions: IOptions): IOptions {
   }
 
   const config = require(configPath);
-  const merged = Object.assign({}, baseOptions, config) as IOptions;
+  const merged = Object.assign({}, baseOptions, config) as IConfig;
 
   return merged;
 }

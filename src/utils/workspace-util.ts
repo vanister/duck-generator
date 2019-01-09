@@ -5,7 +5,7 @@ const getWorkspaceFolder = (folders: WorkspaceFolder[] | undefined): string => {
     return '';
   }
 
-  const folder = folders[0] || {};
+  const folder = folders[0];
   const uri = folder.uri;
 
   return uri.fsPath;

@@ -1,16 +1,17 @@
 import * as fs from 'fs';
 
 import { getConfig } from './config-util';
-import { IOptions } from '../models/options.interface';
+import { IConfig } from '../models/config.interface';
 
 jest.mock('fs');
 jest.mock('path');
 
-const baseoptions: IOptions = {
+const baseoptions: IConfig = {
   ext: '.js',
   root: 'test/src',
   files: ['sample'],
-  additionalFiles: ['one-more']
+  additionalFiles: ['one-more'],
+  createRoot: true
 };
 
 const configPath = '../test/ducks.config.js';
@@ -52,11 +53,12 @@ test('should return the base config if config file is not found', () => {
 });
 
 test('should return the options from config file', () => {
-  const configOptions: IOptions = {
+  const configOptions: IConfig = {
     ext: '.js',
     root: 'test/root',
     files: ['test', 'mock'],
-    additionalFiles: ['two', 'files']
+    additionalFiles: ['two', 'files'],
+    createRoot: true
   };
 
   jest.spyOn(fs, 'existsSync').mockReturnValue(true);
@@ -82,7 +84,8 @@ test('should return merged options if config contains partial settings', () => {
     ext: '.ts',
     root: 'test/src',
     files: ['sample'],
-    additionalFiles: ['only-one']
+    additionalFiles: ['only-one'],
+    createRoot: true
   };
 
   expect(options).toEqual(expectedOptions);

@@ -1,11 +1,12 @@
-import { IOptions } from "./models/options.interface";
+import { IConfig } from "./models/config.interface";
 
-const options: IOptions = {
+const config: IConfig = {
   ext: '.js',
   root: 'src/state/ducks',
   files: ['operators', 'selectors', 'actions', 'reducers', 'types', 'test', 'index'],
-  additionalFiles: []
+  additionalFiles: [],
+  createRoot: true
 };
 
 /** The base options object for the extension */
-export default options;
+export default config;

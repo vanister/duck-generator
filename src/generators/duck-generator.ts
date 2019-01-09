@@ -5,13 +5,13 @@ import { InputBoxOptions } from 'vscode';
 import { DuckExistsError } from '../errors/duck-exists.error';
 import { VSCodeWindow } from '../vscode.interfaces';
 import { IGenerator } from './generator.interface';
-import { IOptions } from '../models/options.interface';
+import { IConfig } from '../models/config.interface';
 
 export class DuckGenerator implements IGenerator {
   constructor(
     private readonly workspaceRoot: string,
     private readonly window: VSCodeWindow,
-    readonly options: IOptions
+    readonly config: IConfig
   ) { }
 
   async execute(): Promise<void> {
@@ -41,14 +41,14 @@ export class DuckGenerator implements IGenerator {
 
   async prompt(): Promise<string | undefined> {
     // this can be abstracted out as an argument for prompt
-    const options: InputBoxOptions = {
+    const inputOptions: InputBoxOptions = {
       ignoreFocusOut: true,
       prompt: `Duck name: 'some_duck', or a relative path: 'src/state/ducks/some_duck'`,
       placeHolder: 'darkwing_duck',
       validateInput: this.validate
     };
 
-    return await this.window.showInputBox(options);
+    return await this.window.showInputBox(inputOptions);
   }
 
   create(absoluteDuckPath: string) {
@@ -58,7 +58,7 @@ export class DuckGenerator implements IGenerator {
       throw new DuckExistsError(`'${duck}' already exists`);
     }
 
-    const { files, ext, additionalFiles } = this.options;
+    const { files, ext, additionalFiles } = this.config;
     const duckFiles = [
       ...files,
       ...additionalFiles
@@ -94,7 +94,7 @@ export class DuckGenerator implements IGenerator {
       return path.resolve(this.workspaceRoot, nameOrRelativePath);
     }
 
-    const { root } = this.options;
+    const { root } = this.config;
 
     // if it's just the name of the duck, assume that it'll be in 'src/state/ducks/'
     return path.resolve(this.workspaceRoot, root, nameOrRelativePath);

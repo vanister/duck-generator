@@ -3,18 +3,20 @@ import * as path from 'path';
 
 import { DuckExistsError } from '../errors/duck-exists.error';
 import { DuckGenerator } from './duck-generator';
-import { IOptions } from '../models/options.interface';
+import { IConfig } from '../models/config.interface';
 
 jest.mock('fs');
 jest.mock('path');
 
 const testRoot = 'fake/path/to/test';
 const windowMock: any = jest.fn();
-const testoptions = {
+
+const testoptions: IConfig = {
   ext: '.js',
   root: 'src/state/ducks',
   files: ['operators', 'selectors', 'actions', 'reducers', 'types', 'test', 'index'],
-  additionalFiles: []
+  additionalFiles: [],
+  createRoot: true
 };
 
 beforeEach(() => {
@@ -24,27 +26,29 @@ beforeEach(() => {
 test('should construct with default options', () => {
   const generator = new DuckGenerator(testRoot, windowMock, testoptions);
 
-  const expectedOptions: IOptions = {
+  const expectedOptions: IConfig = {
     ext: '.js',
     root: 'src/state/ducks',
     files: ['operators', 'selectors', 'actions', 'reducers', 'types', 'test', 'index'],
-    additionalFiles: []
+    additionalFiles: [],
+    createRoot: true
   };
 
-  expect(generator.options).toEqual(expectedOptions);
+  expect(generator.config).toEqual(expectedOptions);
 });
 
 test('should construct with overriden options', () => {
-  const options: IOptions = {
+  const options: IConfig = {
     ext: '.ts',
     root: 'src/state',
     files: ['index'],
-    additionalFiles: ['reducers', 'test']
+    additionalFiles: ['reducers', 'test'],
+    createRoot: true
   };
 
   const generator = new DuckGenerator(testRoot, windowMock, options);
 
-  expect(generator.options).toEqual(options);
+  expect(generator.config).toEqual(options);
 });
 
 test('should validate user input', () => {
