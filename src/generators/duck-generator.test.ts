@@ -11,7 +11,7 @@ jest.mock('path');
 const testRoot = 'fake/path/to/test';
 const windowMock: any = jest.fn();
 
-const testoptions: IConfig = {
+const testconfig: IConfig = {
   ext: '.js',
   root: 'src/state/ducks',
   files: ['operators', 'selectors', 'actions', 'reducers', 'types', 'test', 'index'],
@@ -23,8 +23,8 @@ beforeEach(() => {
   jest.resetAllMocks();
 });
 
-test('should construct with default options', () => {
-  const generator = new DuckGenerator(testRoot, windowMock, testoptions);
+test('should construct with default configs', () => {
+  const generator = new DuckGenerator(testRoot, windowMock, testconfig);
 
   const expectedOptions: IConfig = {
     ext: '.js',
@@ -37,7 +37,7 @@ test('should construct with default options', () => {
   expect(generator.config).toEqual(expectedOptions);
 });
 
-test('should construct with overriden options', () => {
+test('should construct with overriden configs', () => {
   const options: IConfig = {
     ext: '.ts',
     root: 'src/state',
@@ -52,7 +52,7 @@ test('should construct with overriden options', () => {
 });
 
 test('should validate user input', () => {
-  const generator = new DuckGenerator(testRoot, windowMock, testoptions);
+  const generator = new DuckGenerator(testRoot, windowMock, testconfig);
   const name = 'unit_test';
   const nameWithSpace = 'unit space test';
 
@@ -62,35 +62,64 @@ test('should validate user input', () => {
 });
 
 test('should convert to a path string', () => {
-  const generator = new DuckGenerator(testRoot, windowMock, testoptions);
+  const generator = new DuckGenerator(testRoot, windowMock, testconfig);
   const name = 'quack';
   const duckpath = 'some/path/to/quack';
 
-  (<any>path.resolve).mockImplementation((...args: string[]) => args.join('/'));
+  jest.spyOn(path, 'resolve').mockImplementation((...args: string[]) => args.join('/'));
 
   expect(generator.toAbsolutePath(name)).toBe(`${testRoot}/src/state/ducks/${name}`);
   expect(generator.toAbsolutePath(duckpath)).toBe(`${testRoot}/${duckpath}`);
 });
 
+test('should create the duck root', () => {
+  const generator = new DuckGenerator(testRoot, windowMock, testconfig);
+  const duckRoot = `${testRoot}/${testconfig.root}`;
+
+  jest.spyOn(path, 'join').mockReturnValue(duckRoot);
+  jest.spyOn(fs, 'existsSync').mockReturnValue(true);
+
+  generator.createDuckRoot();
+
+  expect(path.join).toHaveBeenCalledWith(testRoot, testconfig.root);
+  expect(fs.existsSync).toHaveBeenCalledWith(duckRoot);
+  expect(fs.mkdirSync).not.toHaveBeenCalled();
+});
+
+test('should not create if duck root exists', () => {
+  const generator = new DuckGenerator(testRoot, windowMock, testconfig);
+  const duckRoot = `${testRoot}/${testconfig.root}`;
+
+  jest.spyOn(path, 'join').mockReturnValue(duckRoot);
+  jest.spyOn(fs, 'existsSync').mockReturnValue(false);
+  jest.spyOn(fs, 'mkdirSync');
+
+  generator.createDuckRoot();
+
+  expect(path.join).toHaveBeenCalledWith(testRoot, testconfig.root);
+  expect(fs.existsSync).toHaveBeenCalledWith(duckRoot);
+  expect(fs.mkdirSync).toHaveBeenCalled();
+});
+
 test('should throw DuckExistError when creating a duck that already exists', () => {
-  const generator = new DuckGenerator(testRoot, windowMock, testoptions);
+  const generator = new DuckGenerator(testRoot, windowMock, testconfig);
   const absDuckPath = 'full/path/to/duck/quack';
 
-  const existsMock = (<any>fs.existsSync).mockReturnValue(true);
-  const basenameMock = (<any>path.basename).mockReturnValue('quack');
+  jest.spyOn(fs, 'existsSync').mockReturnValue(true);
+  jest.spyOn(path, 'basename').mockReturnValue('quack');
 
   expect(() => { generator.create(absDuckPath); }).toThrowError(DuckExistsError);
 
-  expect(existsMock).toHaveBeenCalledWith(absDuckPath);
-  expect(basenameMock).toHaveBeenCalledWith(absDuckPath);
+  expect(fs.existsSync).toHaveBeenCalledWith(absDuckPath);
+  expect(path.basename).toHaveBeenCalledWith(absDuckPath);
 });
 
 test('should create a duck folder with files', () => {
-  const generator = new DuckGenerator(testRoot, windowMock, testoptions);
+  const generator = new DuckGenerator(testRoot, windowMock, testconfig);
   const absDuckPath = 'full/path/to/duck/quack';
 
-  (<any>fs.existsSync).mockReturnValue(false);
-  (<any>path.join).mockImplementation((...args: string[]) => args.join('/'));
+  jest.spyOn(fs, 'existsSync').mockReturnValue(false);
+  jest.spyOn(path, 'join').mockImplementation((...args: string[]) => args.join('/'));
 
   generator.create(absDuckPath);
 
@@ -105,7 +134,7 @@ test('should promt user for input', async () => {
     showInputBox: jest.fn().mockResolvedValue('quack')
   };
 
-  const generator = new DuckGenerator(testRoot, mockWindow, testoptions);
+  const generator = new DuckGenerator(testRoot, mockWindow, testconfig);
 
   const input = await generator.prompt();
 
@@ -114,7 +143,7 @@ test('should promt user for input', async () => {
 });
 
 test('should execute stop execution if duck name is undefined', async () => {
-  const generator = new DuckGenerator(testRoot, windowMock, testoptions);
+  const generator = new DuckGenerator(testRoot, windowMock, testconfig);
 
   jest.spyOn(generator, 'prompt').mockResolvedValue(undefined);
   jest.spyOn(generator, 'toAbsolutePath');
@@ -132,17 +161,19 @@ test('should execute the duck creation flow', async () => {
     showInformationMessage: jest.fn()
   };
 
-  const generator = new DuckGenerator(testRoot, mockWindow, testoptions);
+  const generator = new DuckGenerator(testRoot, mockWindow, testconfig);
   const duck = 'quack';
 
   jest.spyOn(generator, 'prompt').mockResolvedValue(duck);
   jest.spyOn(generator, 'toAbsolutePath').mockReturnValue(`${testRoot}/${duck}`);
   jest.spyOn(generator, 'create');
+  jest.spyOn(generator, 'createDuckRoot');
 
   await generator.execute();
 
   expect(generator.prompt).toHaveBeenCalled();
   expect(generator.toAbsolutePath).toHaveBeenCalledWith(duck);
+  expect(generator.createDuckRoot).toHaveBeenCalled();
   expect(generator.create).toHaveBeenCalledWith(`${testRoot}/${duck}`);
   expect(mockWindow.showInformationMessage).toHaveBeenCalledWith(`Duck: '${duck}' successfully created`);
 });
@@ -152,7 +183,7 @@ test('should catch duck exists error from duck creation flow', async () => {
     showErrorMessage: jest.fn()
   };
 
-  const generator = new DuckGenerator(testRoot, mockWindow, testoptions);
+  const generator = new DuckGenerator(testRoot, mockWindow, testconfig);
   const duck = 'quack';
 
   jest.spyOn(generator, 'prompt').mockResolvedValue(duck);

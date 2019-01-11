@@ -25,6 +25,7 @@ export class DuckGenerator implements IGenerator {
     const absoluteDuckPath: string = this.toAbsolutePath(duckname);
 
     try {
+      this.createDuckRoot();
       this.create(absoluteDuckPath);
 
       this.window.showInformationMessage(`Duck: '${duckname}' successfully created`);
@@ -39,6 +40,10 @@ export class DuckGenerator implements IGenerator {
     }
   }
 
+  dispose(): void {
+    // console.log('disposing...');
+  }
+
   async prompt(): Promise<string | undefined> {
     // this can be abstracted out as an argument for prompt
     const inputOptions: InputBoxOptions = {
@@ -51,7 +56,17 @@ export class DuckGenerator implements IGenerator {
     return await this.window.showInputBox(inputOptions);
   }
 
-  create(absoluteDuckPath: string) {
+  createDuckRoot(): void {
+    const duckRoot = path.join(this.workspaceRoot, this.config.root);
+
+    if (fs.existsSync(duckRoot)) {
+      return;
+    }
+
+    fs.mkdirSync(duckRoot);
+  }
+
+  create(absoluteDuckPath: string): void {
     if (fs.existsSync(absoluteDuckPath)) {
       const duck: string = path.basename(absoluteDuckPath);
 
@@ -96,11 +111,7 @@ export class DuckGenerator implements IGenerator {
 
     const { root } = this.config;
 
-    // if it's just the name of the duck, assume that it'll be in 'src/state/ducks/'
+    // if it's just the name of the duck, assume that it'll be in
     return path.resolve(this.workspaceRoot, root, nameOrRelativePath);
-  }
-
-  dispose(): void {
-    console.log('disposing...');
   }
 }
