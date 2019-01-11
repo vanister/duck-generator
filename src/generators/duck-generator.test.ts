@@ -134,12 +134,14 @@ test('should promt user for input', async () => {
     showInputBox: jest.fn().mockResolvedValue('quack')
   };
 
-  const generator = new DuckGenerator(testRoot, mockWindow, testconfig);
+  jest.spyOn(path, 'join').mockReturnValue(`${testconfig.root}/some_duck`);
 
+  const generator = new DuckGenerator(testRoot, mockWindow, testconfig);
   const input = await generator.prompt();
 
   expect(input).toBe('quack');
   expect(mockWindow.showInputBox).toHaveBeenCalled();
+  expect(path.join).toHaveBeenCalledWith(testconfig.root, 'some_duck');
 });
 
 test('should execute stop execution if duck name is undefined', async () => {

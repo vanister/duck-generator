@@ -45,10 +45,12 @@ export class DuckGenerator implements IGenerator {
   }
 
   async prompt(): Promise<string | undefined> {
+    const sampleDuckRoot = path.join(this.config.root, 'some_duck');
+
     // this can be abstracted out as an argument for prompt
     const inputOptions: InputBoxOptions = {
       ignoreFocusOut: true,
-      prompt: `Duck name: 'some_duck', or a relative path: 'src/state/ducks/some_duck'`,
+      prompt: `Duck name: 'some_duck', or a relative path: '${sampleDuckRoot}'`,
       placeHolder: 'darkwing_duck',
       validateInput: this.validate
     };
