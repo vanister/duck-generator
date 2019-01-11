@@ -114,6 +114,22 @@ test('should throw DuckExistError when creating a duck that already exists', () 
   expect(path.basename).toHaveBeenCalledWith(absDuckPath);
 });
 
+test('should notify the user when there is an error', async () => {
+  const mockWindow: any = {
+    showErrorMessage: jest.fn()
+  };
+
+  const generator = new DuckGenerator(testRoot, mockWindow, testconfig);
+
+  jest.spyOn(generator, 'createDuckRoot').mockImplementation(() => { throw new Error('generic test error'); });
+  jest.spyOn(generator, 'prompt').mockReturnValue('testduck');
+  jest.spyOn(generator,'toAbsolutePath').mockReturnValue('abs/path/to/testduck');
+
+  await generator.execute();
+
+  expect(mockWindow.showErrorMessage).toHaveBeenCalledWith('Error: generic test error');
+});
+
 test('should create a duck folder with files', () => {
   const generator = new DuckGenerator(testRoot, windowMock, testconfig);
   const absDuckPath = 'full/path/to/duck/quack';
