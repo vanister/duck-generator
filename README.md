@@ -33,20 +33,35 @@ Add a `ducks.config.js` to your project root to override default behaviors.
 Export an object with the following options:
 
 ```
+// sample `ducks.config.js` file with default values.
 module.exports = {
-  ...options
+  ext: '.js',
+  root: 'src/state/ducks',
+  createRoot: true,
+  files: [
+    'operators', 
+    'selectors', 
+    'actions', 
+    'reducers', 
+    'types', 
+    'test', 
+    'index'
+  ],
+  additionFiles: []
 };
 ```
 
 ### Options
 
-- `ext`: the extension to use.
+- `ext`: The extension to use.
   - Default: `'.js'`
-- `root`: the root directory of the ducks.
+- `root`: The root directory of the ducks.
   - Default: `'src/state/ducks/'`
-- `files`: an array of files to generate.
+- `createRoot`: True, to create the `root` ducks folder, false otherwise.
+  - Defaults: `true`
+- `files`: An array of files to generate.
   - Default: `['operators', 'selectors', 'actions', 'reducers', 'types', 'test', 'index']`
-- `additionalFiles`: an array of additional files to generate on top of the duck files.
+- `additionalFiles`: An array of additional files to generate on top of the duck files.
   - Default: `[]`
 
 ## Known Issues
