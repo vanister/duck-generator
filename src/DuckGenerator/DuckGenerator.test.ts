@@ -1,14 +1,5 @@
 import { DuckGenerator } from './DuckGenerator';
 import { DuckExistsError } from '../errors/duck-exists.error';
-// const mockPrompt = jest.fn();
-// const mockWindow = {
-//   showInformationMessage: jest.fn().mockResolvedValue('msg'),
-//   showErrorMessage: jest.fn().mockResolvedValue('err_msg'),
-// };
-
-// const mockDuckCreator = {
-//   create: jest.fn().mockResolvedValue(null)
-// };
 
 beforeEach(() => {
   jest.resetAllMocks();

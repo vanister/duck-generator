@@ -2,7 +2,7 @@
   "name": "duckgenerator",
   "displayName": "Duck Generator",
   "description": "Generates duck folder and files for the re-ducks pattern.",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "publisher": "Vanister",
   "license": "MIT",
   "repository": {

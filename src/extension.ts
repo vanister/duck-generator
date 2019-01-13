@@ -21,7 +21,7 @@ import inputOptions from './input-box-options';
 // your extension is activated the very first time the command is executed
 export function activate(context: ExtensionContext) {
   const workspaceRoot: string = getWorkspaceFolder(workspace.workspaceFolders);
-  const configPath: string = path.resolve(workspaceRoot, 'ducks.config.js');
+  const configPath: string = path.join(workspaceRoot, 'ducks.config.js');
   const config: IConfig = getConfig(configPath, baseConfig);
   const creator = new DuckCreator(workspaceRoot, config);
   const prompt = promptUsing(window, inputOptions);
