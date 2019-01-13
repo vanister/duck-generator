@@ -22,13 +22,13 @@ export class DuckGenerator implements IGenerator {
     try {
       await this.duckCreator.create(duckname);
 
-      this.window.showInformationMessage(`Duck: '${duckname}' successfully created`);
+      await this.window.showInformationMessage(`Duck: '${duckname}' successfully created`);
     } catch (err) {
       // log?
       if (err instanceof DuckExistsError) {
-        this.window.showErrorMessage(`Duck: '${duckname}' already exists`);
+        await this.window.showErrorMessage(`Duck: '${duckname}' already exists`);
       } else {
-        this.window.showErrorMessage(`Error: ${err.message}`);
+        await this.window.showErrorMessage(`Error: ${err.message}`);
       }
     }
   }
